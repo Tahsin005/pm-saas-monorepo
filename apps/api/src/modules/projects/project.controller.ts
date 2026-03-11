@@ -1,6 +1,7 @@
 import type { Request, Response, NextFunction } from 'express';
 import * as projectService from './project.service.js';
 import type { CreateProjectInput, UpdateProjectInput } from './project.schema.js';
+import type { ProjectStatus } from '@repo/shared-types';
 
 export async function createProject(
     req: Request<object, object, CreateProjectInput>,
@@ -21,8 +22,17 @@ export async function listProjects(
     next: NextFunction
 ): Promise<void> {
     try {
-        const projects = await projectService.listProjects(req.user!.id);
-        res.json({ success: true, data: projects });
+        const { status, page, limit } = req.query as {
+            status?: ProjectStatus;
+            page?: string;
+            limit?: string;
+        };
+        const result = await projectService.listProjects(req.user!.id, {
+            ...(status && { status }),
+            ...(page && { page: Number(page) }),
+            ...(limit && { limit: Number(limit) }),
+        });
+        res.json({ success: true, ...result });
     } catch (err) {
         next(err);
     }
@@ -34,7 +44,7 @@ export async function getProject(
     next: NextFunction
 ): Promise<void> {
     try {
-        const project = await projectService.getProjectById(req.params.id, req.user!.id);
+        const project = await projectService.getProjectWithStats(req.params.id, req.user!.id);
         res.json({ success: true, data: project });
     } catch (err) {
         next(err);

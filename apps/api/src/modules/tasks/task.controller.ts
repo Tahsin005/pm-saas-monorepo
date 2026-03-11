@@ -1,6 +1,7 @@
 import type { Request, Response, NextFunction } from 'express';
 import * as taskService from './task.service.js';
-import type { CreateTaskInput, UpdateTaskInput, UpdateTaskStatusInput } from './task.schema.js';
+import type { CreateTaskInput, UpdateTaskInput, UpdateTaskStatusInput, UpdateTaskOrderInput } from './task.schema.js';
+import type { TaskStatus, TaskPriority, TaskSortField, SortDir } from '@repo/shared-types';
 
 type TaskParams = { projectId: string; taskId: string };
 type ProjectParams = { projectId: string };
@@ -24,8 +25,27 @@ export async function listTasks(
     next: NextFunction
 ): Promise<void> {
     try {
-        const tasks = await taskService.listTasks(req.params.projectId, req.user!.id);
-        res.json({ success: true, data: tasks });
+        const { status, priority, tag, overdue, sort, dir, page, limit } = req.query as {
+            status?: TaskStatus;
+            priority?: TaskPriority;
+            tag?: string;
+            overdue?: string;
+            sort?: TaskSortField;
+            dir?: SortDir;
+            page?: string;
+            limit?: string;
+        };
+        const result = await taskService.listTasks(req.params.projectId, req.user!.id, {
+            ...(status && { status }),
+            ...(priority && { priority }),
+            ...(tag && { tag }),
+            ...(overdue === 'true' && { overdue: true }),
+            ...(sort && { sort }),
+            ...(dir && { dir }),
+            ...(page && { page: Number(page) }),
+            ...(limit && { limit: Number(limit) }),
+        });
+        res.json({ success: true, ...result });
     } catch (err) {
         next(err);
     }
@@ -64,6 +84,19 @@ export async function updateTaskStatus(
 ): Promise<void> {
     try {
         const task = await taskService.updateTaskStatus(req.params.taskId, req.params.projectId, req.user!.id, req.body);
+        res.json({ success: true, data: task });
+    } catch (err) {
+        next(err);
+    }
+}
+
+export async function updateTaskOrder(
+    req: Request<TaskParams, object, UpdateTaskOrderInput>,
+    res: Response,
+    next: NextFunction
+): Promise<void> {
+    try {
+        const task = await taskService.updateTaskOrder(req.params.taskId, req.params.projectId, req.user!.id, req.body);
         res.json({ success: true, data: task });
     } catch (err) {
         next(err);

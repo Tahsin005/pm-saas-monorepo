@@ -4,6 +4,9 @@ import cookieParser from 'cookie-parser';
 import { authRouter } from './modules/auth/auth.routes.js';
 import { projectRouter } from './modules/projects/project.routes.js';
 import { taskRouter } from './modules/tasks/task.routes.js';
+import { dashboardRouter } from './modules/dashboard/dashboard.routes.js';
+import { userRouter } from './modules/users/user.routes.js';
+import { searchRouter } from './modules/search/search.routes.js';
 import { errorHandler } from './middleware/errorHandler.js';
 
 export function createApp() {
@@ -21,8 +24,11 @@ export function createApp() {
 
     // Routes
     app.use('/api/v1/auth', authRouter);
+    app.use('/api/v1/users', userRouter);
     app.use('/api/v1/projects', projectRouter);
     app.use('/api/v1/projects/:projectId/tasks', taskRouter);
+    app.use('/api/v1/dashboard', dashboardRouter);
+    app.use('/api/v1/search', searchRouter);
 
     // Global error handler
     app.use(errorHandler);
