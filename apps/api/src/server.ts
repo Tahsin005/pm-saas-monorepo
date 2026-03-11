@@ -1,15 +1,8 @@
-import express from "express";
-import cors from "cors";
+import { createApp } from './app.js';
+import { env } from './env.js';
 
-const app = express();
+const app = createApp();
 
-app.use(cors());
-app.use(express.json());
-
-app.get("/api/health", (req, res) => {
-    res.json({ status: "ok", task: "API is healthy" });
-});
-
-app.listen(4000, () => {
-    console.log("API running on port 4000");
+app.listen(env.port, () => {
+  console.log(`API running on port ${env.port}`);
 });

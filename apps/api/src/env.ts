@@ -11,5 +11,7 @@ export const env = {
     nodeEnv: process.env['NODE_ENV'] || 'development',
     databaseUrl: required('DATABASE_URL'),
     jwtSecret: required('JWT_SECRET'),
-    jwtExpiresIn: process.env['JWT_EXPIRES_IN'] || '7d',
+    jwtExpiresIn: process.env['JWT_EXPIRES_IN'] || '15m',
+    jwtRefreshSecret: required('JWT_REFRESH_SECRET'),
+    jwtRefreshExpiresIn: process.env['JWT_REFRESH_EXPIRES_IN'] || '7d',
 } as const;

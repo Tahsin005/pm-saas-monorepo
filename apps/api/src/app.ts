@@ -1,0 +1,27 @@
+import express from 'express';
+import cors from 'cors';
+import cookieParser from 'cookie-parser';
+import { authRouter } from './modules/auth/auth.routes.js';
+import { errorHandler } from './middleware/errorHandler.js';
+
+export function createApp() {
+    const app = express();
+
+    // Core middleware
+    app.use(cors({ credentials: true, origin: true }));
+    app.use(express.json());
+    app.use(cookieParser());
+
+    // Health check
+    app.get('/api/health', (_req, res) => {
+        res.json({ success: true, message: 'API is healthy' });
+    });
+
+    // Routes
+    app.use('/api/v1/auth', authRouter);
+
+    // Global error handler
+    app.use(errorHandler);
+
+    return app;
+}
