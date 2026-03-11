@@ -3,6 +3,7 @@ import cors from 'cors';
 import cookieParser from 'cookie-parser';
 import { authRouter } from './modules/auth/auth.routes.js';
 import { projectRouter } from './modules/projects/project.routes.js';
+import { taskRouter } from './modules/tasks/task.routes.js';
 import { errorHandler } from './middleware/errorHandler.js';
 
 export function createApp() {
@@ -21,6 +22,7 @@ export function createApp() {
     // Routes
     app.use('/api/v1/auth', authRouter);
     app.use('/api/v1/projects', projectRouter);
+    app.use('/api/v1/projects/:projectId/tasks', taskRouter);
 
     // Global error handler
     app.use(errorHandler);
