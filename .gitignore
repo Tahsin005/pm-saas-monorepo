@@ -50,3 +50,6 @@ coverage/
 .cache/
 .turbo/
 .eslintcache
+
+# Especial
+design_guidelines.md
