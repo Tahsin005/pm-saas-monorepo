@@ -14,6 +14,7 @@ import {
 import { useAppDispatch, useAppSelector } from '@/store'
 import { clearCredentials, selectCurrentUser, selectIsAuthenticated } from '@/store/authSlice'
 import { useLogoutMutation } from '@/api/authApi'
+import { toast } from 'react-hot-toast'
 
 interface NavLink {
     label: string
@@ -44,6 +45,7 @@ export default function Navbar() {
             // ignore errors, still clear local state
         } finally {
             dispatch(clearCredentials())
+            toast.success('Logged out')
             setMobileOpen(false)
             navigate('/', { replace: true })
         }

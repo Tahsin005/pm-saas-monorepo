@@ -1,6 +1,7 @@
 import { useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import { Zap, Mail, Lock, UserPlus, Eye, EyeOff } from 'lucide-react'
+import { toast } from 'react-hot-toast'
 import { useAppDispatch } from '@/store/index'
 import { setCredentials } from '@/store/authSlice'
 import { useRegisterMutation } from '@/api/authApi'
@@ -41,9 +42,10 @@ export default function RegisterPage() {
         try {
             const data = await register({ email, password }).unwrap()
             dispatch(setCredentials(data))
+            toast.success('Account created!')
             navigate('/dashboard', { replace: true })
         } catch {
-            // handled by hook
+            toast.error(serverError ?? 'Registration failed')
         }
     }
 

@@ -1,6 +1,7 @@
 import { useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import { Zap, Mail, Lock, LogIn, Eye, EyeOff } from 'lucide-react'
+import { toast } from 'react-hot-toast'
 import { useAppDispatch } from '@/store/index'
 import { setCredentials } from '@/store/authSlice'
 import { useLoginMutation } from '@/api/authApi'
@@ -38,9 +39,10 @@ export default function LoginPage() {
         try {
             const data = await login({ email, password }).unwrap()
             dispatch(setCredentials(data))
+            toast.success('Welcome back!')
             navigate('/dashboard', { replace: true })
         } catch {
-            // handled by hook
+            toast.error(serverError ?? 'Login failed')
         }
     }
 
