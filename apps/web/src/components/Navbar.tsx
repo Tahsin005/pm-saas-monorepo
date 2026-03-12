@@ -1,6 +1,19 @@
 import { useState } from 'react'
-import { Link, useLocation } from 'react-router-dom'
-import { LayoutDashboard, FolderKanban, Menu, X, LogIn, UserPlus, Zap } from 'lucide-react'
+import { Link, useLocation, useNavigate } from 'react-router-dom'
+import {
+    LayoutDashboard,
+    FolderKanban,
+    Menu,
+    X,
+    LogIn,
+    UserPlus,
+    Zap,
+    LogOut,
+    User,
+} from 'lucide-react'
+import { useAppDispatch, useAppSelector } from '@/store'
+import { clearCredentials, selectCurrentUser, selectIsAuthenticated } from '@/store/authSlice'
+import { useLogoutMutation } from '@/api/authApi'
 
 interface NavLink {
     label: string
@@ -16,8 +29,25 @@ const NAV_LINKS: NavLink[] = [
 export default function Navbar() {
     const [mobileOpen, setMobileOpen] = useState(false)
     const { pathname } = useLocation()
+    const navigate = useNavigate()
+    const dispatch = useAppDispatch()
+    const [logout] = useLogoutMutation()
+    const isAuthenticated = useAppSelector(selectIsAuthenticated)
+    const currentUser = useAppSelector(selectCurrentUser)
 
     const isActive = (to: string) => pathname === to
+
+    async function handleLogout() {
+        try {
+            await logout().unwrap()
+        } catch {
+            // ignore errors, still clear local state
+        } finally {
+            dispatch(clearCredentials())
+            setMobileOpen(false)
+            navigate('/', { replace: true })
+        }
+    }
 
     return (
         <header className="fixed inset-x-0 top-0 z-50 border-b border-border bg-base/80 backdrop-blur-md">
@@ -34,7 +64,7 @@ export default function Navbar() {
                 </Link>
 
                 <ul className="hidden items-center gap-1 sm:flex">
-                    {NAV_LINKS.map(({ label, to, icon }) => (
+                    {isAuthenticated && NAV_LINKS.map(({ label, to, icon }) => (
                         <li key={to}>
                             <Link
                                 to={to}
@@ -52,20 +82,41 @@ export default function Navbar() {
                 </ul>
 
                 <div className="hidden items-center gap-2 sm:flex">
-                    <Link
-                        to="/login"
-                        className="flex items-center gap-1.5 rounded-md px-3 py-1.5 text-sm text-text-secondary transition-colors hover:bg-elevated hover:text-text-primary"
-                    >
-                        <LogIn size={15} />
-                        Sign in
-                    </Link>
-                    <Link
-                        to="/register"
-                        className="flex items-center gap-1.5 rounded-lg bg-accent px-3 py-1.5 text-sm font-semibold text-white transition-colors hover:bg-accent-hover"
-                    >
-                        <UserPlus size={15} />
-                        Get started
-                    </Link>
+                    {isAuthenticated ? (
+                        <>
+                            <div className="flex items-center gap-2 rounded-md border border-border px-3 py-1.5 text-sm text-text-secondary">
+                                <User size={14} />
+                                <span className="max-w-[160px] truncate">
+                                    {currentUser?.email ?? 'Signed in'}
+                                </span>
+                            </div>
+                            <button
+                                type="button"
+                                onClick={handleLogout}
+                                className="flex items-center gap-1.5 rounded-md px-3 py-1.5 text-sm text-text-secondary transition-colors hover:bg-elevated hover:text-text-primary"
+                            >
+                                <LogOut size={15} />
+                                Logout
+                            </button>
+                        </>
+                    ) : (
+                        <>
+                            <Link
+                                to="/login"
+                                className="flex items-center gap-1.5 rounded-md px-3 py-1.5 text-sm text-text-secondary transition-colors hover:bg-elevated hover:text-text-primary"
+                            >
+                                <LogIn size={15} />
+                                Sign in
+                            </Link>
+                            <Link
+                                to="/register"
+                                className="flex items-center gap-1.5 rounded-lg bg-accent px-3 py-1.5 text-sm font-semibold text-white transition-colors hover:bg-accent-hover"
+                            >
+                                <UserPlus size={15} />
+                                Get started
+                            </Link>
+                        </>
+                    )}
                 </div>
 
                 <button
@@ -80,7 +131,7 @@ export default function Navbar() {
             {mobileOpen && (
                 <div className="border-t border-border bg-surface px-4 pb-4 pt-3 sm:hidden">
                     <ul className="space-y-1">
-                        {NAV_LINKS.map(({ label, to, icon }) => (
+                        {isAuthenticated && NAV_LINKS.map(({ label, to, icon }) => (
                             <li key={to}>
                                 <Link
                                     to={to}
@@ -98,23 +149,44 @@ export default function Navbar() {
                         ))}
                     </ul>
 
-                    <div className="mt-3 flex gap-2 border-t border-border pt-3">
-                        <Link
-                            to="/login"
-                            onClick={() => setMobileOpen(false)}
-                            className="flex flex-1 items-center justify-center gap-1.5 rounded-md border border-border py-2 text-sm text-text-secondary transition-colors hover:bg-elevated hover:text-text-primary"
-                        >
-                            <LogIn size={14} />
-                            Sign in
-                        </Link>
-                        <Link
-                            to="/register"
-                            onClick={() => setMobileOpen(false)}
-                            className="flex flex-1 items-center justify-center gap-1.5 rounded-lg bg-accent py-2 text-sm font-semibold text-white transition-colors hover:bg-accent-hover"
-                        >
-                            <UserPlus size={14} />
-                            Get started
-                        </Link>
+                    <div className="mt-3 flex flex-col gap-2 border-t border-border pt-3">
+                        {isAuthenticated ? (
+                            <>
+                                <div className="flex items-center gap-2 rounded-md border border-border px-3 py-2 text-sm text-text-secondary">
+                                    <User size={14} />
+                                    <span className="truncate">
+                                        {currentUser?.email ?? 'Signed in'}
+                                    </span>
+                                </div>
+                                <button
+                                    type="button"
+                                    onClick={handleLogout}
+                                    className="flex items-center justify-center gap-1.5 rounded-md border border-border py-2 text-sm text-text-secondary transition-colors hover:bg-elevated hover:text-text-primary"
+                                >
+                                    <LogOut size={14} />
+                                    Logout
+                                </button>
+                            </>
+                        ) : (
+                            <div className="flex gap-2">
+                                <Link
+                                    to="/login"
+                                    onClick={() => setMobileOpen(false)}
+                                    className="flex flex-1 items-center justify-center gap-1.5 rounded-md border border-border py-2 text-sm text-text-secondary transition-colors hover:bg-elevated hover:text-text-primary"
+                                >
+                                    <LogIn size={14} />
+                                    Sign in
+                                </Link>
+                                <Link
+                                    to="/register"
+                                    onClick={() => setMobileOpen(false)}
+                                    className="flex flex-1 items-center justify-center gap-1.5 rounded-lg bg-accent py-2 text-sm font-semibold text-white transition-colors hover:bg-accent-hover"
+                                >
+                                    <UserPlus size={14} />
+                                    Get started
+                                </Link>
+                            </div>
+                        )}
                     </div>
                 </div>
             )}
