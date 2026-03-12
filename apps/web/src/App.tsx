@@ -1,6 +1,7 @@
 import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom'
 import { ProtectedRoute, GuestRoute } from '@/components/RouteGuards'
 import { PlaceholderPage } from '@/components/PlaceholderPage'
+import HomePage from '@/pages/HomePage'
 
 
 export default function App() {
@@ -31,9 +32,11 @@ export default function App() {
           element={<ProtectedRoute><PlaceholderPage title="Project Detail" /></ProtectedRoute>}
         />
 
+        {/* Home */}
+        <Route path="/" element={<HomePage />} />
+
         {/* Fallback */}
-        <Route path="/" element={<Navigate to="/dashboard" replace />} />
-        <Route path="*" element={<Navigate to="/dashboard" replace />} />
+        <Route path="*" element={<Navigate to="/" replace />} />
       </Routes>
     </BrowserRouter>
   )

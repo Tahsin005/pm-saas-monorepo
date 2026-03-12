@@ -1,74 +1,79 @@
-:root {
-  /* Background */
-  --bg-base: #0d0d0d;
-  --bg-surface: #141414;
-  --bg-elevated: #1c1c1c;
+@import "tailwindcss";
 
-  /* Borders */
-  --border-default: #2a2a2a;
-  --border-subtle: #1f1f1f;
+@theme {
+  /* Fonts */
+  --font-sans: 'Inter', ui-sans-serif, system-ui, sans-serif;
+  --font-mono: 'JetBrains Mono', 'Fira Code', ui-monospace, monospace;
 
-  /* Text */
-  --text-primary: #f0f0f0;
-  --text-secondary: #a0a0a0;
-  --text-muted: #5a5a5a;
-  --text-disabled: #3a3a3a;
+  /* Background colors */
+  --color-base:     #0d0d0d;
+  --color-surface:  #141414;
+  --color-elevated: #1c1c1c;
 
-  /* Brand / Accent */
-  --accent: #6e56cf;
-  --accent-hover: #7c65d8;
-  --accent-subtle: #6e56cf18;
-  --accent-text: #a78bfa;
+  /* Border colors */
+  --color-border:        #2a2a2a;
+  --color-border-subtle: #1f1f1f;
+
+  /* Text colors */
+  --color-text-primary:   #f0f0f0;
+  --color-text-secondary: #a0a0a0;
+  --color-text-muted:     #5a5a5a;
+  --color-text-disabled:  #3a3a3a;
+
+  /* Accent / brand */
+  --color-accent:        #6e56cf;
+  --color-accent-hover:  #7c65d8;
+  --color-accent-subtle: rgba(110, 86, 207, 0.094);
+  --color-accent-text:   #a78bfa;
 
   /* Semantic */
-  --success: #22c55e;
-  --success-subtle: #22c55e18;
-  --warning: #f59e0b;
-  --warning-subtle: #f59e0b18;
-  --danger: #ef4444;
-  --danger-subtle: #ef444418;
-  --info: #3b82f6;
-  --info-subtle: #3b82f618;
-
-  /* Spacing */
-  --space-1: 4px;
-  --space-2: 8px;
-  --space-3: 12px;
-  --space-4: 16px;
-  --space-5: 20px;
-  --space-6: 24px;
-  --space-8: 32px;
-  --space-10: 40px;
-  --space-12: 48px;
+  --color-success:        #22c55e;
+  --color-success-subtle: rgba(34, 197, 94, 0.094);
+  --color-warning:        #f59e0b;
+  --color-warning-subtle: rgba(245, 158, 11, 0.094);
+  --color-danger:         #ef4444;
+  --color-danger-subtle:  rgba(239, 68, 68, 0.094);
+  --color-info:           #3b82f6;
+  --color-info-subtle:    rgba(59, 130, 246, 0.094);
 
   /* Border radius */
-  --radius-sm: 4px;
-  --radius-md: 6px;
-  --radius-lg: 8px;
-  --radius-xl: 12px;
+  --radius-sm:   4px;
+  --radius-md:   6px;
+  --radius-lg:   8px;
+  --radius-xl:   12px;
   --radius-full: 9999px;
+}
 
-  /* Typography */
-  --font-sans: 'Geist', 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
-  --font-mono: 'Geist Mono', 'JetBrains Mono', 'Fira Code', monospace;
+/* CSS custom properties — for use in inline styles / non-TW */
 
-  /* Layout */
-  --sidebar-width: 240px;
+:root {
+  --bg-base:          #0d0d0d;
+  --bg-surface:       #141414;
+  --bg-elevated:      #1c1c1c;
+  --border-default:   #2a2a2a;
+  --border-subtle:    #1f1f1f;
+  --text-primary:     #f0f0f0;
+  --text-secondary:   #a0a0a0;
+  --text-muted:       #5a5a5a;
+  --text-disabled:    #3a3a3a;
+  --accent:           #6e56cf;
+  --accent-hover:     #7c65d8;
+  --accent-text:      #a78bfa;
+  --success:          #22c55e;
+  --warning:          #f59e0b;
+  --danger:           #ef4444;
+  --info:             #3b82f6;
+  --font-sans:        'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+  --font-mono:        'JetBrains Mono', 'Fira Code', monospace;
+  --sidebar-width:           240px;
   --sidebar-collapsed-width: 48px;
-  --header-height: 56px;
-  --content-max-width: 1200px;
+  --header-height:           56px;
+  --content-max-width:       1200px;
 }
 
-
-/* Global Reset & Base Styles */
-
-*,
-*::before,
-*::after {
-  box-sizing: border-box;
-  margin: 0;
-  padding: 0;
-}
+/* ============================================================
+   Base styles
+   ============================================================ */
 
 html {
   font-size: 16px;
@@ -97,40 +102,22 @@ a {
   color: var(--accent-text);
   text-decoration: none;
 }
-a:hover {
-  color: var(--accent-hover);
-}
+a:hover { color: var(--accent-hover); }
 
-button {
-  font-family: var(--font-sans);
-  cursor: pointer;
-}
-
+button,
 input,
 textarea,
 select {
   font-family: var(--font-sans);
 }
 
-code,
-pre {
-  font-family: var(--font-mono);
-}
+code, pre { font-family: var(--font-mono); }
 
-/* Scrollbar Styling (dark theme) */
+/* ============================================================
+   Scrollbar (dark theme)
+   ============================================================ */
 
-::-webkit-scrollbar {
-  width: 6px;
-  height: 6px;
-}
-::-webkit-scrollbar-track {
-  background: var(--bg-base);
-}
-::-webkit-scrollbar-thumb {
-  background: var(--border-default);
-  border-radius: var(--radius-full);
-}
-::-webkit-scrollbar-thumb:hover {
-  background: var(--text-muted);
-}
-
+::-webkit-scrollbar        { width: 6px; height: 6px; }
+::-webkit-scrollbar-track  { background: var(--bg-base); }
+::-webkit-scrollbar-thumb  { background: var(--border-default); border-radius: 9999px; }
+::-webkit-scrollbar-thumb:hover { background: var(--text-muted); }

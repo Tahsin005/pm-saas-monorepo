@@ -1,0 +1,23 @@
+# Build outputs
+dist/
+build/
+out/
+
+# Generated files (Prisma client, etc.)
+**/generated/
+
+# Dependencies
+node_modules/
+
+# Lock files (let prettier skip them)
+package-lock.json
+bun.lock
+yarn.lock
+pnpm-lock.yaml
+
+# Env files
+.env
+.env.*
+
+# Editor / OS
+.DS_Store
