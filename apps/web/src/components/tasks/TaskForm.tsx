@@ -61,7 +61,7 @@ export default function TaskForm({ initialValues, submitLabel = 'Save task', isS
             }}
         >
             <div className="space-y-2">
-                <Label htmlFor="task-title">Title</Label>
+                <Label htmlFor="task-title" className="text-foreground">Title</Label>
                 <Input
                     id="task-title"
                     value={title}
@@ -72,7 +72,7 @@ export default function TaskForm({ initialValues, submitLabel = 'Save task', isS
             </div>
 
             <div className="space-y-2">
-                <Label htmlFor="task-description">Description</Label>
+                <Label htmlFor="task-description" className="text-foreground">Description</Label>
                 <textarea
                     id="task-description"
                     className="min-h-[120px] w-full resize-none rounded-md border border-input bg-background px-3 py-2 text-sm text-foreground outline-none focus-visible:ring-2 focus-visible:ring-ring"
@@ -83,7 +83,7 @@ export default function TaskForm({ initialValues, submitLabel = 'Save task', isS
             </div>
 
             <div className="space-y-2">
-                <Label>Priority</Label>
+                <Label className="text-foreground">Priority</Label>
                 <div className="flex flex-wrap gap-2">
                     {TASK_PRIORITY_VALUES.map((value) => (
                         <Button
@@ -91,6 +91,7 @@ export default function TaskForm({ initialValues, submitLabel = 'Save task', isS
                             type="button"
                             variant={priority === value ? 'default' : 'outline'}
                             size="sm"
+                            className={priority === value ? undefined : 'text-foreground'}
                             onClick={() => setPriority(value)}
                         >
                             {value}
@@ -100,7 +101,7 @@ export default function TaskForm({ initialValues, submitLabel = 'Save task', isS
             </div>
 
             <div className="space-y-2">
-                <Label>Status</Label>
+                <Label className="text-foreground">Status</Label>
                 <div className="flex flex-wrap gap-2">
                     {TASK_STATUS_VALUES.map((value) => (
                         <Button
@@ -108,6 +109,7 @@ export default function TaskForm({ initialValues, submitLabel = 'Save task', isS
                             type="button"
                             variant={status === value ? 'default' : 'outline'}
                             size="sm"
+                            className={status === value ? undefined : 'text-foreground'}
                             onClick={() => setStatus(value)}
                         >
                             {value}
@@ -117,7 +119,7 @@ export default function TaskForm({ initialValues, submitLabel = 'Save task', isS
             </div>
 
             <div className="space-y-2">
-                <Label htmlFor="task-due">Due date</Label>
+                <Label htmlFor="task-due" className="text-foreground">Due date</Label>
                 <Input
                     id="task-due"
                     type="datetime-local"
@@ -127,7 +129,7 @@ export default function TaskForm({ initialValues, submitLabel = 'Save task', isS
             </div>
 
             <div className="space-y-2">
-                <Label htmlFor="task-tags">Tags</Label>
+                <Label htmlFor="task-tags" className="text-foreground">Tags</Label>
                 <Input
                     id="task-tags"
                     value={tags}

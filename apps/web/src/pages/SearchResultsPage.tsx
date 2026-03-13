@@ -72,7 +72,9 @@ export default function SearchResultsPage() {
                                             <p className="text-xs text-muted-foreground">Status: {project.status}</p>
                                         </div>
                                         <Button size="sm" variant="outline" asChild>
-                                            <Link to={`/projects/${project.id}`}>Open</Link>
+                                            <Link to={`/projects/${project.id}`}>
+                                                <span className="text-base">Open</span>
+                                            </Link>
                                         </Button>
                                     </div>
                                 ))
@@ -100,7 +102,9 @@ export default function SearchResultsPage() {
                                             </p>
                                         </div>
                                         <Button size="sm" variant="outline" asChild>
-                                            <Link to={`/projects/${task.projectId}`}>View project</Link>
+                                            <Link to={`/projects/${task.projectId}`}>
+                                                <span className="text-base">View project</span>
+                                            </Link>
                                         </Button>
                                     </div>
                                 ))

@@ -81,25 +81,29 @@ export default function DashboardPage() {
                         <p className="text-sm font-semibold">Quick links</p>
                         <p className="text-xs text-muted-foreground">Jump back into your most important work.</p>
                     </div>
-                    <Button size="sm" variant="outline" asChild>
-                        <Link to="/projects">View projects</Link>
+                    <Button size="sm" variant="outline" className="text-foreground" asChild>
+                        <Link to="/projects">
+                            <span className="text-base">View projects</span>
+                        </Link>
                     </Button>
                 </div>
                 <Separator />
                 <div className="space-y-4 p-4">
                     <div className="flex items-center justify-between rounded-lg border border-border/60 bg-background px-3 py-2">
                         <div>
-                            <p className="text-sm font-semibold">Recent project</p>
+                            <p className="text-sm font-semibold text-base">Recent project</p>
                             <p className="text-xs text-muted-foreground">
                                 {data.recentProject ? data.recentProject.name : 'No projects yet'}
                             </p>
                         </div>
                         {data.recentProject ? (
                             <Button size="sm" asChild>
-                                <Link to={`/projects/${data.recentProject.id}`}>Open</Link>
+                                <Link to={`/projects/${data.recentProject.id}`}>
+                                    <span className="text-white">Open</span>
+                                </Link>
                             </Button>
                         ) : (
-                            <Button size="sm" variant="outline" asChild>
+                            <Button size="sm" variant="outline" className="text-foreground" asChild>
                                 <Link to="/projects">Create</Link>
                             </Button>
                         )}
@@ -113,8 +117,10 @@ export default function DashboardPage() {
                                     : 'No overdue tasks right now'}
                             </p>
                         </div>
-                        <Button size="sm" variant="outline" asChild>
-                            <Link to="/projects">Review</Link>
+                        <Button size="sm" variant="outline" className="text-foreground" asChild>
+                            <Link to="/projects">
+                                <span className="text-base">View tasks</span>
+                            </Link>
                         </Button>
                     </div>
                     <div className="flex items-center justify-between rounded-lg border border-border/60 bg-background px-3 py-2">
@@ -124,8 +130,10 @@ export default function DashboardPage() {
                                 {data.projects.ACTIVE} active · {data.projects.COMPLETED} completed
                             </p>
                         </div>
-                        <Button size="sm" variant="outline" asChild>
-                            <Link to="/projects">View</Link>
+                        <Button size="sm" variant="outline" className="text-foreground" asChild>
+                            <Link to="/projects">
+                                <span className="text-base">Review</span>
+                            </Link>
                         </Button>
                     </div>
                 </div>

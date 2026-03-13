@@ -40,7 +40,7 @@ export default function ProjectForm({
             }}
         >
             <div className="space-y-2">
-                <Label htmlFor="project-name" className='text-base'>Project name</Label>
+                <Label htmlFor="project-name" className="text-base text-foreground">Project name</Label>
                 <Input
                     id="project-name"
                     value={name}
@@ -51,7 +51,7 @@ export default function ProjectForm({
             </div>
 
             <div className="space-y-2">
-                <Label htmlFor="project-description" className='text-base'>Description</Label>
+                <Label htmlFor="project-description" className="text-base text-foreground">Description</Label>
                 <textarea
                     id="project-description"
                     className="min-h-[120px] w-full resize-none rounded-md border border-input bg-background px-3 py-2 text-sm text-foreground outline-none focus-visible:ring-2 focus-visible:ring-ring"
@@ -62,7 +62,7 @@ export default function ProjectForm({
             </div>
 
             <div className="space-y-2">
-                <Label className='text-base'>Status</Label>
+                <Label className="text-base text-foreground">Status</Label>
                 <div className="flex flex-wrap gap-2">
                     {PROJECT_STATUS_VALUES.map((value) => (
                         <Button
@@ -70,6 +70,7 @@ export default function ProjectForm({
                             type="button"
                             variant={status === value ? 'default' : 'outline'}
                             size="sm"
+                            className={status === value ? undefined : 'text-foreground'}
                             onClick={() => setStatus(value)}
                         >
                             {value}
