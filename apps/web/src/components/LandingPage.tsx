@@ -3,9 +3,9 @@ import AuthScreen from '@/components/AuthScreen'
 import { ArrowRight, Sparkles } from 'lucide-react'
 
 const features = [
-    'Plan sprints, milestones, and releases in one place.',
-    'Keep every project update visible to the whole team.',
-    'Stay on track with lightweight, real-time progress reports.',
+    'Create projects, track tasks, and keep every deliverable on schedule.',
+    'Filter and prioritize tasks by status, priority, and due date.',
+    'Get a real-time dashboard view of overdue work and progress.',
 ]
 
 export default function LandingPage() {
@@ -28,26 +28,26 @@ export default function LandingPage() {
                 <div className="space-y-8">
                     <div className="inline-flex items-center gap-2 rounded-full border border-border/60 bg-card px-3 py-1 text-xs font-semibold uppercase tracking-[0.2em] text-muted-foreground">
                         <span className="h-2 w-2 rounded-full bg-primary" />
-                        Launching your next project
+                        Project & task management
                     </div>
 
                     <div className="space-y-4">
                         <h1 className="text-4xl font-semibold leading-tight sm:text-5xl">
-                            Ship client projects faster with a calm, focused workspace.
+                            Keep projects, tasks, and timelines in perfect sync.
                         </h1>
                         <p className="text-base text-muted-foreground sm:text-lg">
-                            TaskFlow keeps your team aligned with planning, visibility, and streamlined execution —
-                            everything you need to deliver on time.
+                            TaskFlow helps you create projects, assign tasks, and monitor progress with clear dashboards
+                            and fast filters so nothing slips through the cracks.
                         </p>
                     </div>
 
                     <div className="flex flex-wrap gap-3">
                         <Button size="lg" className="gap-2">
-                            Get started
+                            Start managing work
                             <ArrowRight className="h-4 w-4" />
                         </Button>
                         <Button size="lg" variant="outline">
-                            View demo
+                            Explore dashboard
                         </Button>
                     </div>
 
