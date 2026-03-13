@@ -18,7 +18,12 @@ function getErrorMessage(error: unknown) {
     return 'Something went wrong. Please try again.'
 }
 
-export default function AuthScreen() {
+type AuthScreenProps = {
+    layout?: 'page' | 'embedded'
+    className?: string
+}
+
+export default function AuthScreen({ layout = 'page', className }: AuthScreenProps) {
     const [activeTab, setActiveTab] = useState<'login' | 'register'>('login')
     const [loginValues, setLoginValues] = useState({ email: '', password: '' })
     const [registerValues, setRegisterValues] = useState({ email: '', password: '' })
@@ -29,8 +34,13 @@ export default function AuthScreen() {
         return getErrorMessage(loginState.error) ?? getErrorMessage(registerState.error)
     }, [loginState.error, registerState.error])
 
+    const wrapperClasses =
+        layout === 'embedded'
+            ? 'w-full'
+            : 'flex min-h-screen items-center justify-center bg-background px-4 py-10'
+
     return (
-        <div className="flex min-h-screen items-center justify-center bg-background px-4 py-10">
+        <div className={[wrapperClasses, className].filter(Boolean).join(' ')}>
             <Card className="w-full max-w-md">
                 <CardHeader>
                     <CardTitle>Welcome to TaskFlow</CardTitle>

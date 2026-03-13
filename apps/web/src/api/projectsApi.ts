@@ -22,11 +22,16 @@ export interface ProjectWithStats extends Project {
     stats?: ProjectStats
 }
 
-export interface ProjectListResponse {
-    data: Project[]
+export interface ProjectListMeta {
+    total: number
     page: number
     limit: number
-    total: number
+    totalPages: number
+}
+
+export interface ProjectListResponse {
+    data: Project[]
+    meta: ProjectListMeta
 }
 
 export interface CreateProjectInput {
@@ -55,11 +60,13 @@ export const projectsApi = api.injectEndpoints({
                 method: 'GET',
                 ...(params ? { params } : {}),
             }),
-            transformResponse: (raw: { success: true; data: Project[]; page: number; limit: number; total: number }) => ({
-                data: raw.data,
-                page: raw.page,
-                limit: raw.limit,
-                total: raw.total,
+            transformResponse: (raw: {
+                success: true
+                items: Project[]
+                meta: ProjectListMeta
+            }) => ({
+                data: raw.items,
+                meta: raw.meta,
             }),
             providesTags: (result) =>
                 result

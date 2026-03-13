@@ -6,13 +6,16 @@ import { Toaster } from 'react-hot-toast'
 import './index.css'
 import App from './App.tsx'
 import { TooltipProvider } from '@/components/ui/tooltip'
+import { BrowserRouter } from 'react-router-dom'
 
 createRoot(document.getElementById('root')!).render(
     <StrictMode>
         <Provider store={store}>
-            <TooltipProvider>
-                <App />
-            </TooltipProvider>
+            <BrowserRouter>
+                <TooltipProvider>
+                    <App />
+                </TooltipProvider>
+            </BrowserRouter>
             <Toaster
                 position="top-right"
                 toastOptions={{
