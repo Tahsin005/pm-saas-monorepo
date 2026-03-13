@@ -5,11 +5,14 @@ import { store } from './store'
 import { Toaster } from 'react-hot-toast'
 import './index.css'
 import App from './App.tsx'
+import { TooltipProvider } from '@/components/ui/tooltip'
 
 createRoot(document.getElementById('root')!).render(
     <StrictMode>
         <Provider store={store}>
-            <App />
+            <TooltipProvider>
+                <App />
+            </TooltipProvider>
             <Toaster
                 position="top-right"
                 toastOptions={{
