@@ -80,6 +80,32 @@ export const tasksApi = api.injectEndpoints({
                 body: data,
             }),
             transformResponse: (raw: { success: true; data: Task }) => raw.data,
+            async onQueryStarted({ projectId, taskId, data }, { dispatch, getState, queryFulfilled }) {
+                const patches = api.util
+                    .selectInvalidatedBy(getState(), [{ type: 'Task' as const, id: `LIST-${projectId}` }])
+                    .filter((entry) => entry.endpointName === 'listTasks')
+                    .map((entry) =>
+                        dispatch(
+                            tasksApi.util.updateQueryData(
+                                'listTasks',
+                                entry.originalArgs as TaskListParams,
+                                (draft) => {
+                                    const typed = draft as TaskListResponse
+                                    const task = typed.data.find((item: Task) => item.id === taskId)
+                                    if (task) {
+                                        task.status = data.status
+                                    }
+                                }
+                            )
+                        )
+                    )
+
+                try {
+                    await queryFulfilled
+                } catch {
+                    patches.forEach((patch) => patch.undo())
+                }
+            },
             invalidatesTags: (_result, _err, { projectId, taskId }) => [
                 { type: 'Task' as const, id: taskId },
                 { type: 'Task' as const, id: `LIST-${projectId}` },
@@ -92,6 +118,33 @@ export const tasksApi = api.injectEndpoints({
                 body: data,
             }),
             transformResponse: (raw: { success: true; data: Task }) => raw.data,
+            async onQueryStarted({ projectId, taskId, data }, { dispatch, getState, queryFulfilled }) {
+                const patches = api.util
+                    .selectInvalidatedBy(getState(), [{ type: 'Task' as const, id: `LIST-${projectId}` }])
+                    .filter((entry) => entry.endpointName === 'listTasks')
+                    .map((entry) =>
+                        dispatch(
+                            tasksApi.util.updateQueryData(
+                                'listTasks',
+                                entry.originalArgs as TaskListParams,
+                                (draft) => {
+                                    const typed = draft as TaskListResponse
+                                    const task = typed.data.find((item: Task) => item.id === taskId)
+                                    if (task) {
+                                        task.order = data.order
+                                    }
+                                    typed.data.sort((a: Task, b: Task) => a.order - b.order)
+                                }
+                            )
+                        )
+                    )
+
+                try {
+                    await queryFulfilled
+                } catch {
+                    patches.forEach((patch) => patch.undo())
+                }
+            },
             invalidatesTags: (_result, _err, { projectId, taskId }) => [
                 { type: 'Task' as const, id: taskId },
                 { type: 'Task' as const, id: `LIST-${projectId}` },

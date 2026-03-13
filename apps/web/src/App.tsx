@@ -11,6 +11,7 @@ import DashboardPage from '@/pages/DashboardPage'
 import ProjectsListPage from '@/pages/ProjectsListPage'
 import ProjectDetailPage from '@/pages/ProjectDetailPage'
 import SearchResultsPage from '@/pages/SearchResultsPage'
+import SettingsPage from '@/pages/SettingsPage'
 
 export default function App() {
   useAuthBootstrap()
@@ -52,6 +53,7 @@ export default function App() {
         <Route path="projects" element={<ProjectsListPage />} />
         <Route path="projects/:projectId" element={<ProjectDetailPage />} />
         <Route path="search" element={<SearchResultsPage />} />
+        <Route path="settings" element={<SettingsPage />} />
       </Route>
       <Route path="*" element={<Navigate to={isAuthenticated ? '/dashboard' : '/'} replace />} />
     </Routes>

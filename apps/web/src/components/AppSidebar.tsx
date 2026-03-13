@@ -1,4 +1,4 @@
-import { LayoutDashboard, FolderKanban, CalendarDays, Users } from 'lucide-react'
+import { LayoutDashboard, FolderKanban, CalendarDays, Users, Settings } from 'lucide-react'
 import { NavLink, useLocation } from 'react-router-dom'
 import {
     Sidebar,
@@ -23,6 +23,7 @@ const NAV_LINKS = [
     { label: 'Projects', icon: <FolderKanban className='text-base' size={16} />, to: '/projects' },
     { label: 'Calendar', icon: <CalendarDays size={16} />, disabled: true },
     { label: 'Teams', icon: <Users size={16} />, disabled: true },
+    { label: 'Settings', icon: <Settings className='text-base' size={16} />, to: '/settings' },
 ]
 
 export function AppSidebar() {
