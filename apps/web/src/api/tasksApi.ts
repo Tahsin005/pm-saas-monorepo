@@ -1,5 +1,6 @@
 import { api } from '@/store/api'
 import type {
+    PaginationMeta,
     Task,
     TaskListQuery,
     TaskStatus,
@@ -10,16 +11,9 @@ import type {
     UpdateTaskOrderInput,
 } from '@repo/shared-types'
 
-export interface TaskListMeta {
-    total: number
-    page: number
-    limit: number
-    totalPages: number
-}
-
 export interface TaskListResponse {
     data: Task[]
-    meta: TaskListMeta
+    meta: PaginationMeta
 }
 
 export type TaskListParams = TaskListQuery & { projectId: string }
@@ -32,7 +26,7 @@ export const tasksApi = api.injectEndpoints({
                 method: 'GET',
                 params,
             }),
-            transformResponse: (raw: { success: true; items: Task[]; meta: TaskListMeta }) => ({
+            transformResponse: (raw: { success: true; items: Task[]; meta: PaginationMeta }) => ({
                 data: raw.items,
                 meta: raw.meta,
             }),

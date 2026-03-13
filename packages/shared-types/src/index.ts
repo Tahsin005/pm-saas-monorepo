@@ -21,6 +21,18 @@ export interface Project {
   updatedAt: string;
 }
 
+export interface ProjectTaskStats {
+  TODO: number;
+  IN_PROGRESS: number;
+  DONE: number;
+}
+
+export interface ProjectWithStats extends Project {
+  taskStats?: ProjectTaskStats;
+  completionPercent?: number;
+  overdueCount?: number;
+}
+
 export const TASK_STATUS_VALUES = ['TODO', 'IN_PROGRESS', 'DONE'] as const;
 export type TaskStatus = (typeof TASK_STATUS_VALUES)[number];
 

@@ -1,38 +1,15 @@
 import { api } from '@/store/api'
-import type { ProjectStatus } from '@repo/shared-types'
+import type {
+    PaginationMeta,
+    PaginatedResponse,
+    Project,
+    ProjectStatus,
+    ProjectWithStats,
+} from '@repo/shared-types'
 
-export interface Project {
-    id: string
-    name: string
-    description?: string | null
-    status: ProjectStatus
-    ownerId: string
-    createdAt: string
-    updatedAt: string
-}
-
-export interface ProjectTaskStats {
-    TODO: number
-    IN_PROGRESS: number
-    DONE: number
-}
-
-export interface ProjectWithStats extends Project {
-    taskStats?: ProjectTaskStats
-    completionPercent?: number
-    overdueCount?: number
-}
-
-export interface ProjectListMeta {
-    total: number
-    page: number
-    limit: number
-    totalPages: number
-}
-
-export interface ProjectListResponse {
+export type ProjectListResponse = {
     data: Project[]
-    meta: ProjectListMeta
+    meta: PaginationMeta
 }
 
 export interface CreateProjectInput {
@@ -64,7 +41,7 @@ export const projectsApi = api.injectEndpoints({
             transformResponse: (raw: {
                 success: true
                 items: Project[]
-                meta: ProjectListMeta
+                meta: PaginationMeta
             }) => ({
                 data: raw.items,
                 meta: raw.meta,
