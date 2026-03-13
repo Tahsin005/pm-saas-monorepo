@@ -10,6 +10,7 @@ import { Navigate, Route, Routes } from 'react-router-dom'
 import DashboardPage from '@/pages/DashboardPage'
 import ProjectsListPage from '@/pages/ProjectsListPage'
 import ProjectDetailPage from '@/pages/ProjectDetailPage'
+import SearchResultsPage from '@/pages/SearchResultsPage'
 
 export default function App() {
   useAuthBootstrap()
@@ -50,6 +51,7 @@ export default function App() {
         <Route path="dashboard" element={<DashboardPage />} />
         <Route path="projects" element={<ProjectsListPage />} />
         <Route path="projects/:projectId" element={<ProjectDetailPage />} />
+        <Route path="search" element={<SearchResultsPage />} />
       </Route>
       <Route path="*" element={<Navigate to={isAuthenticated ? '/dashboard' : '/'} replace />} />
     </Routes>

@@ -632,10 +632,10 @@ export default function ProjectDetailPage() {
                         </div>
                     )}
 
-                    {taskData && taskData.meta.totalPages > 1 && (
-                        <div className="flex items-center justify-between text-xs text-muted-foreground">
+                    {taskData && (
+                        <div className="flex flex-wrap items-center justify-between gap-2 text-xs text-muted-foreground">
                             <span>
-                                Page {taskData.meta.page} of {taskData.meta.totalPages}
+                                Showing page {taskData.meta.page} of {taskData.meta.totalPages} · {taskData.meta.total} total
                             </span>
                             <div className="flex items-center gap-2">
                                 <Button

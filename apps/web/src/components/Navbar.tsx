@@ -1,14 +1,31 @@
-import { Bell, Search, Zap } from 'lucide-react'
+import { Search, Zap } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { SidebarTrigger } from '@/components/ui/sidebar'
 import { useLogoutMutation } from '@/api/authApi'
 import { useAppSelector } from '@/store'
 import { selectCurrentUser } from '@/store/authSlice'
+import { useEffect, useState } from 'react'
+import { useLocation, useNavigate, useSearchParams } from 'react-router-dom'
 
 export default function Navbar() {
     const [logout, logoutState] = useLogoutMutation()
     const user = useAppSelector(selectCurrentUser)
+    const navigate = useNavigate()
+    const location = useLocation()
+    const [params] = useSearchParams()
+    const [query, setQuery] = useState('')
+
+    useEffect(() => {
+        if (location.pathname !== '/search') return
+        setQuery(params.get('q') ?? '')
+    }, [location.pathname, params])
+
+    useEffect(() => {
+        if (location.pathname !== '/search') {
+            setQuery('')
+        }
+    }, [location.pathname])
 
     return (
         <header className="sticky top-0 z-40 w-full border-b border-border bg-background/80 backdrop-blur">
@@ -23,6 +40,21 @@ export default function Navbar() {
 
                 <div className="flex flex-1 items-center gap-2">
                     <div className="relative w-full max-w-md">
+                        <Search className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
+                        <Input
+                            value={query}
+                            onChange={(event) => setQuery(event.target.value)}
+                            onKeyDown={(event) => {
+                                if (event.key === 'Enter') {
+                                    const term = query.trim()
+                                    if (term.length >= 2) {
+                                        navigate(`/search?q=${encodeURIComponent(term)}`)
+                                    }
+                                }
+                            }}
+                            className="pl-9"
+                            placeholder="Search projects and tasks"
+                        />
                     </div>
                 </div>
 
