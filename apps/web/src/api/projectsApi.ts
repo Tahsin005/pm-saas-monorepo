@@ -11,15 +11,16 @@ export interface Project {
     updatedAt: string
 }
 
-export interface ProjectStats {
-    totalTasks?: number
-    completedTasks?: number
-    overdueTasks?: number
-    highPriorityTasks?: number
+export interface ProjectTaskStats {
+    TODO: number
+    IN_PROGRESS: number
+    DONE: number
 }
 
 export interface ProjectWithStats extends Project {
-    stats?: ProjectStats
+    taskStats?: ProjectTaskStats
+    completionPercent?: number
+    overdueCount?: number
 }
 
 export interface ProjectListMeta {
