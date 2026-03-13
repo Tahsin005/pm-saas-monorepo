@@ -4,7 +4,7 @@ import { validate } from '../../middleware/validate.js';
 import { createTaskSchema, updateTaskSchema, updateTaskStatusSchema, updateTaskOrderSchema } from './task.schema.js';
 import * as taskController from './task.controller.js';
 
-export const taskRouter = Router({ mergeParams: true });
+export const taskRouter: Router = Router({ mergeParams: true });
 
 taskRouter.use(authenticate);
 

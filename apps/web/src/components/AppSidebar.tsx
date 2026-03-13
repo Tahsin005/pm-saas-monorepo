@@ -14,6 +14,8 @@ import {
     SidebarTrigger,
     SidebarRail,
 } from '@/components/ui/sidebar'
+import { useAppSelector } from '@/store'
+import { selectCurrentUser } from '@/store/authSlice'
 const NAV_LINKS = [
     { label: 'Dashboard', icon: <LayoutDashboard size={16} /> },
     { label: 'Projects', icon: <FolderKanban size={16} /> },
@@ -22,6 +24,7 @@ const NAV_LINKS = [
 ]
 
 export function AppSidebar() {
+    const user = useAppSelector(selectCurrentUser)
     return (
         <Sidebar collapsible="icon" className="pt-14">
             <SidebarHeader>
@@ -64,20 +67,9 @@ export function AppSidebar() {
                             tooltip="Account"
                         >
                             <span className="flex h-6 w-6 items-center justify-center rounded-full bg-muted text-xs font-semibold text-foreground">
-                                JD
+                                {user?.email?.split('@')[0][0] ?? 'User'}
                             </span>
-                            <span className="truncate">Jane Doe</span>
-                        </SidebarMenuButton>
-                    </SidebarMenuItem>
-                    <SidebarMenuItem>
-                        <SidebarMenuButton
-                            className="gap-2 text-muted-foreground hover:text-foreground"
-                            tooltip="Upgrade"
-                        >
-                            <span className="flex h-6 w-6 items-center justify-center rounded-full bg-primary/10 text-primary">
-                                ↑
-                            </span>
-                            <span>Upgrade plan</span>
+                            <span className="truncate">{user?.email?.split('@')[0] ?? 'User'}</span>
                         </SidebarMenuButton>
                     </SidebarMenuItem>
                 </SidebarMenu>

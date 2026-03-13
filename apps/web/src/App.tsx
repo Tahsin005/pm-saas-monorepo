@@ -1,10 +1,49 @@
 import Navbar from '@/components/Navbar'
 import AppSidebar from '@/components/AppSidebar'
+import AuthScreen from '@/components/AuthScreen'
 import { SidebarInset, SidebarProvider } from '@/components/ui/sidebar'
 import { Button } from '@/components/ui/button'
 import { Separator } from '@/components/ui/separator'
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
+import { Skeleton } from '@/components/ui/skeleton'
+import { useAuthBootstrap } from '@/hooks/useAuthBootstrap'
+import { useAppSelector } from '@/store'
+import { selectAuthHydrating, selectIsAuthenticated } from '@/store/authSlice'
+import { Loader2 } from 'lucide-react'
 
 export default function App() {
+  useAuthBootstrap()
+  const isAuthenticated = useAppSelector(selectIsAuthenticated)
+  const hydrating = useAppSelector(selectAuthHydrating)
+
+  if (hydrating) {
+    return (
+      <div className="flex min-h-screen items-center justify-center bg-background px-4">
+        <Card className="w-full max-w-md">
+          <CardHeader>
+            <div className="flex items-center gap-3 text-sm text-muted-foreground">
+              <Loader2 className="h-4 w-4 animate-spin" />
+              Checking session…
+            </div>
+            <CardTitle className="text-lg">Preparing your workspace</CardTitle>
+          </CardHeader>
+          <CardContent className="space-y-4">
+            <Skeleton className="h-4 w-2/3" />
+            <Skeleton className="h-4 w-1/2" />
+            <div className="grid gap-3 sm:grid-cols-2">
+              <Skeleton className="h-20" />
+              <Skeleton className="h-20" />
+            </div>
+          </CardContent>
+        </Card>
+      </div>
+    )
+  }
+
+  if (!isAuthenticated) {
+    return <AuthScreen />
+  }
+
   return (
     <SidebarProvider>
       <div className="flex min-h-screen w-full flex-col bg-background text-foreground">

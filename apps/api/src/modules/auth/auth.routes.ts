@@ -4,7 +4,7 @@ import { authenticate } from '../../middleware/authenticate.js';
 import { registerSchema, loginSchema } from './auth.schema.js';
 import * as authController from './auth.controller.js';
 
-export const authRouter = Router();
+export const authRouter: Router = Router();
 
 // POST /api/v1/auth/register
 authRouter.post('/register', validate(registerSchema), authController.register);

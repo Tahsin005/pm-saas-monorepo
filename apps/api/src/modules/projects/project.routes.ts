@@ -4,7 +4,7 @@ import { validate } from '../../middleware/validate.js';
 import { createProjectSchema, updateProjectSchema } from './project.schema.js';
 import * as projectController from './project.controller.js';
 
-export const projectRouter = Router();
+export const projectRouter: Router = Router();
 
 projectRouter.use(authenticate);
 
